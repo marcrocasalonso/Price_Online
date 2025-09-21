@@ -49,7 +49,10 @@ if mode == "cross" and (uploads.df_a is None or uploads.df_b is None):
 if comparison_context.generate_report:
     selected_sections = st.session_state["sel_sections"] or None
     if mode == "same":
-        df_view = comparison_context.df_view_main or uploads.df_main
+        if comparison_context.df_view_main is not None:
+            df_view = comparison_context.df_view_main
+        else:
+            df_view = uploads.df_main
         variant_a = comparison_context.variant_a
         variant_b = comparison_context.variant_b
         if df_view is not None and variant_a and variant_b:
@@ -66,8 +69,15 @@ if comparison_context.generate_report:
             else:
                 st.session_state["last_highlights"] = ""
     else:
-        df_view_a = comparison_context.df_view_a or uploads.df_a
-        df_view_b = comparison_context.df_view_b or uploads.df_b
+        if comparison_context.df_view_a is not None:
+            df_view_a = comparison_context.df_view_a
+        else:
+            df_view_a = uploads.df_a
+
+        if comparison_context.df_view_b is not None:
+            df_view_b = comparison_context.df_view_b
+        else:
+            df_view_b = uploads.df_b
         variant_a = comparison_context.variant_a
         variant_b = comparison_context.variant_b
         if df_view_a is not None and df_view_b is not None and variant_a and variant_b:
